@@ -19,7 +19,10 @@ logging.basicConfig(
 logger = logging.getLogger("kavach_ai.guardrail")
 
 # Initialize Groq client - consider moving this to environment variables
-groq = Groq(api_key="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")
+groq_api_key = os.getenv("GROQ_API_KEY")
+if not groq_api_key:
+    raise ValueError("GROQ_API_KEY not found in environment variables.")
+groq = Groq(api_key=groq_api_key)
 
 class ContentCategory(str, Enum):
     """Categories of potentially harmful content"""
