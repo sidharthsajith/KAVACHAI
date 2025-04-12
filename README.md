@@ -227,4 +227,3 @@ Contributions are welcome! Please feel free to submit pull requests or open issu
 ## License
 
 This project is licensed under the MIT License - see the <mcfile name="LICENSE" path="/Users/sidharthsajith/Desktop/projects/KAVACHAI/LICENSE"></mcfile> file for details.
-```
