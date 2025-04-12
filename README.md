@@ -1,6 +1,7 @@
 # Kavach AI - Advanced AI Guardrail System
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Kavach AI](https://sdmntprwestus.oaiusercontent.com/files/00000000-9780-6230-bea3-3b3e3c793752/raw?se=2025-04-12T07%3A49%3A00Z&sp=r&sv=2024-08-04&sr=b&scid=cdca7a9c-d099-5bc1-8e47-abbbac94e462&skoid=e872f19f-7b7f-4feb-9998-20052dec61d6&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-04-11T23%3A49%3A19Z&ske=2025-04-12T23%3A49%3A19Z&sks=b&skv=2024-08-04&sig=SczEyVPu7Xs5ZlZo8bqgeVD2ysnG51aQ4NMz82QK5Ds%3D)](https://github.com/sidharthsajith/KAVACHAI)
 
 Kavach AI is a multi-layered, configurable security guardrail designed to protect Large Language Models (LLMs) and other AI systems from harmful inputs, prompt injection, jailbreak attempts, and other adversarial attacks. It provides robust content moderation capabilities with flexible configuration options.
 
