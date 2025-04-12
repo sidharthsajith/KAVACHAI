@@ -576,7 +576,7 @@ class Guardrail:
         """Use LLM to check content against guardrail rules"""
         
         # Create system prompt based on configuration
-        system_prompt = self._create_system_prompt()
+        system_prompt = self._create_system_prompt() # This line caused the error
         
         try:
             # Add content segmentation for better analysis of mixed-intent queries
@@ -633,6 +633,34 @@ class Guardrail:
                 confidence_score=None,
                 detection_method="llm_check_error"
             )
+    def _segment_content(self, content: str) -> str:
+        """
+        Segment content into logical parts for better LLM analysis,
+        especially for mixed-intent or long queries.
+        Returns a string representation of the segments.
+        """
+        # Simple segmentation by double newline or sentence boundaries
+        segments = []
+        # Split by double newlines first
+        potential_segments = re.split(r'\n\s*\n', content)
+        
+        for seg in potential_segments:
+            if len(seg.strip()) > 0:
+                # Further split long segments by sentences (simple approach)
+                sentences = re.split(r'(?<=[.!?])\s+', seg.strip())
+                segments.extend([s for s in sentences if s])
+        
+        if not segments:
+            segments.append(content) # Handle cases with no clear segmentation
+
+        # Format segments for the prompt
+        segmented_output = ""
+        for i, segment in enumerate(segments):
+            # Limit segment length to avoid overly long prompts
+            segment_preview = segment[:200] + "..." if len(segment) > 200 else segment
+            segmented_output += f"Segment {i+1}: {segment_preview}\n"
+            
+        return segmented_output.strip()
     
     def _check_with_multiple_llms(self, content: str) -> ModerationResult:
         """Use multiple LLMs to check content for higher accuracy"""
@@ -695,6 +723,45 @@ class Guardrail:
         
         return preprocessed
     
+    # ****** ADD THE MISSING METHOD HERE ******
+    def _create_system_prompt(self) -> str:
+        """Create the system prompt for LLM moderation based on the config."""
+        
+        prompt_parts = [
+            f"You are an AI security guardrail named Kavach AI. Your task is to analyze user-provided content based on the following configuration:",
+            f"Guardrail Name: {self.config.name}",
+            f"Guardrail Description: {self.config.description}",
+            f"Moderation Level: {self.config.level.value}",
+            "Targeted Content Categories for Flagging:",
+        ]
+        
+        for category in self.config.categories:
+            prompt_parts.append(f"- {category.value}")
+        
+        if self.config.custom_rules:
+            prompt_parts.append("\nCustom Rules to Enforce:")
+            for rule in self.config.custom_rules:
+                prompt_parts.append(f"- {rule}")
+        
+        prompt_parts.extend([
+            "\nAnalysis Task:",
+            "Carefully review the user's content. Determine if it violates any of the specified categories or custom rules based on the configured moderation level.",
+            "Consider potential obfuscation, context, and intent.",
+            "Respond ONLY with a JSON object containing the following keys:",
+            '- "flagged": (boolean) true if the content should be blocked, false otherwise.',
+            '- "categories": (list of strings) List the specific category values (e.g., ["hate_speech", "jailbreak_attempt"]) that were violated. Empty list if not flagged.',
+            '- "reason": (string) A brief explanation for why the content was flagged, mentioning the specific rule or category violated. Null if not flagged.',
+            '- "confidence_score": (float, 0.0 to 1.0) Your confidence in the flagging decision. Null if not flagged.',
+            "\nExample Response Format (Flagged):",
+            '```json\n{\n  "flagged": true,\n  "categories": ["malicious_instructions", "jailbreak_attempt"],\n  "reason": "Detected attempt to bypass safety guidelines using role-playing.",\n  "confidence_score": 0.85\n}\n```',
+            "\nExample Response Format (Not Flagged):",
+            '```json\n{\n  "flagged": false,\n  "categories": [],\n  "reason": null,\n  "confidence_score": null\n}\n```',
+            "Output ONLY the JSON object, nothing else."
+        ])
+        
+        return "\n".join(prompt_parts)
+    # ****** END OF ADDED METHOD ******
+
     def _generate_cache_key(self, content: str) -> str:
         """Generate a cache key for the content"""
         # Use a hash of the content as the cache key
@@ -864,18 +931,12 @@ def create_jailbreak_protection() -> Guardrail:
 def analyze_content_deeply(content: str) -> Dict[str, Any]:
     """
     Perform a deep analysis of content using multiple guardrails.
-    
-    Args:
-        content: The content to analyze
-        
-    Returns:
-        Dict: Detailed analysis results
     """
     start_time = time.time()
     
     # Create different specialized guardrails
-    standard_guardrail = create_guardrail()
-    jailbreak_guardrail = create_jailbreak_protection()
+    standard_guardrail = Guardrail(DEFAULT_GUARDRAIL_CONFIG)
+    jailbreak_guardrail = Guardrail(JAILBREAK_PROTECTION_CONFIG)
     
     # Run checks in parallel
     results = {}
