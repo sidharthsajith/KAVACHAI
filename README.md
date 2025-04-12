@@ -326,7 +326,7 @@ KavachAI is licensed under the [MIT License](https://github.com/sidharthsajith/K
 
 ## Contact
 
-- **Email**: sidharth.sajith@example.com
+- **Email**: sidharthsajith008@gmail.com
 - **GitHub Issues**: [KAVACHAI Issues](https://github.com/sidharthsajith/KAVACHAI/issues)
 - **Community**: [Discussions](https://github.com/sidharthsajith/KAVACHAI/discussions)
 
@@ -336,7 +336,7 @@ KavachAI is licensed under the [MIT License](https://github.com/sidharthsajith/K
 
 - **Q1 2024**: Multi-language support.
 - **Q2 2024**: Additional LLM provider integrations.
-- **Q3 2024**: Real-time monitoring dashboard945
+- **Q3 2024**: Real-time monitoring dashboard.
 
 ---
 
