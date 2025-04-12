@@ -6,10 +6,18 @@ import time
 import hashlib
 import logging
 from enum import Enum
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 from groq import Groq
 import concurrent.futures
 from functools import lru_cache
+from dotenv import load_dotenv
+
+# Construct the absolute path to the .env file
+project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) 
+dotenv_path = os.path.join(project_root, '.env')
+
+# Load environment variables from .env file using the explicit path
+load_dotenv(dotenv_path=dotenv_path)
 
 # Setup logging
 logging.basicConfig(
@@ -75,17 +83,21 @@ class GuardrailConfig(BaseModel):
     enable_adversarial_check: bool = True  # Check for adversarial inputs
     enable_token_analysis: bool = True  # Enable token-level analysis
     max_parallel_checks: int = 3  # Maximum number of parallel checks
-    
-    @validator('custom_patterns')
-    def validate_patterns(cls, patterns):
+
+    # Use the updated field_validator decorator
+    @field_validator('custom_patterns', mode='before')
+    @classmethod # Add classmethod decorator, often needed with field_validator
+    def validate_patterns(cls, v): # Changed 'patterns' to 'v' (conventional name)
         """Validate that patterns are valid regex"""
-        for pattern in patterns:
+        if not isinstance(v, list): # Add type check just in case
+             raise ValueError("custom_patterns must be a list")
+        for pattern in v:
             try:
                 re.compile(pattern)
             except re.error:
                 raise ValueError(f"Invalid regex pattern: {pattern}")
-        return patterns
-    
+        return v
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert config to dictionary for LLM prompt"""
         return {
