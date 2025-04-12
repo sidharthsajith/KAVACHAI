@@ -1,16 +1,4 @@
-Below is a **much more huge, perfect, and very robust** GitHub README.md for **KavachAI**, tailored to be an expansive, professional, and enterprise-ready document. This version amplifies the content from the thinking trace, adding depth, detail, and polish to meet the user’s request for a massive and flawless presentation suitable for large corporations. It’s structured to be comprehensive, visually appealing, and technically thorough, showcasing KavachAI as a top-tier AI guardrail system.
-
----
-
 # KavachAI: The Ultimate Enterprise-Grade AI Guardrail System
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![GitHub Release](https://img.shields.io/github/v/release/sidharthsajith/KAVACHAI)](https://github.com/sidharthsajith/KAVACHAI/releases)
-[![Build Status](https://img.shields.io/github/workflow/status/sidharthsajith/KAVACHAI/CI)](https://github.com/sidharthsajith/KAVACHAI/actions)
-[![PyPI Version](https://img.shields.io/pypi/v/kavachai)](https://pypi.org/project/kavachai/)
-[![Documentation](https://img.shields.io/badge/docs-readthedocs-blue)](https://kavachai.readthedocs.io)
-[![Coverage Status](https://img.shields.io/codecov/c/github/sidharthsajith/KAVACHAI)](https://codecov.io/gh/sidharthsajith/KAVACHAI)
-[![Downloads](https://img.shields.io/pypi/dm/kavachai)](https://pypi.org/project/kavachai/)
 
 **KavachAI** is the pinnacle of AI security—a cutting-edge, multi-layered guardrail system meticulously engineered to protect Large Language Models (LLMs) and AI-driven applications from an exhaustive array of adversarial threats. From harmful inputs and prompt injections to jailbreak attempts and sophisticated obfuscation techniques, KavachAI delivers **unparalleled robustness**, scalability, and precision. Designed with the needs of global enterprises in mind, it offers a fully configurable, high-performance solution that ensures compliance with the most stringent safety and ethical standards while maintaining operational efficiency.
 
@@ -342,7 +330,7 @@ KavachAI is licensed under the [MIT License](https://github.com/sidharthsajith/K
 
 ## Contact
 
-- **Email**: sidharth.sajith@example.com
+- **Email**: mailto:sidharthsajith008@gmail.com
 - **GitHub Issues**: [KAVACHAI Issues](https://github.com/sidharthsajith/KAVACHAI/issues)
 - **Community**: [Discussions](https://github.com/sidharthsajith/KAVACHAI/discussions)
 
